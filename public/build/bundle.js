@@ -9482,6 +9482,10 @@ var _react = __webpack_require__(52);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"jQuery\""); e.code = 'MODULE_NOT_FOUND';; throw e; }()));
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9496,10 +9500,31 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      imageIfnfo: null
+    };
+    _this.genrateImage = _this.genrateImage.bind(_this);
+    return _this;
   }
 
   _createClass(App, [{
+    key: 'genrateImage',
+    value: function genrateImage() {
+      var context = this;
+      _jQuery2.default.ajax({
+        method: 'GET',
+        url: '/api/',
+        contentType: 'application/json',
+        done: function done(data) {
+          context.setState({
+            imageIfnfo: data
+          });
+        }
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -9509,6 +9534,11 @@ var App = function (_React$Component) {
           'p',
           null,
           'Hello From Sunny'
+        ),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.genrateImage },
+          'create an Image'
         )
       );
     }
